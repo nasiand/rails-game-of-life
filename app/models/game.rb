@@ -4,15 +4,12 @@ class Game < ApplicationRecord
 
   validate :file_content_type
 
-  # after_create :make_grid_from_file
-
   def start
-    # while true do
       # create a new 2D Array because I need to not change the value of the actual cells
       max_generation = self.grids.maximum(:generation)
       actual_grid = self.grids.find_by(generation: max_generation)
       next_grid = self.grids.new(generation: max_generation + 1, rows: actual_grid.rows, cols: actual_grid.cols)
-      changed = false
+      next_grid.save
       # I need to order the cells becasue I don't have the garanty that the DB has already ordered by ID of inserction
       actual_grid.cells.order(:row_position, :column_position).each do |cell|
         # count live neighbors
@@ -28,19 +25,11 @@ class Game < ApplicationRecord
         if cell.dead? && neighbors == 3
           new_cell.alive = true
           new_cell.save
-          # new_cell.save!
-          changed = true
-        else cell.alive? && (neighbors < 2 || neighbors > 3)
+        elsif cell.alive? && (neighbors < 2 || neighbors > 3)
           new_cell.alive = false
           new_cell.save
-          # new_cell.save!
-          changed = true
         end
-        # next_grid.cells.new(alive: new_cell.alive, row_position: new.cell.row_position, column_position: new.cell.column_position)
       end
-      next_grid.save
-      # break if changed == false
-    # end
   end
 
   def make_grid_from_file
@@ -55,7 +44,6 @@ class Game < ApplicationRecord
         grid = self.grids.create(generation: 0, rows: line[0].to_i, cols: line[1].to_i)
         next line
       end
-
       line = line.chomp.chars # because the last chars is "\n"
       line.each_with_index do |cell, column_index|
         grid.cells.create(alive: cell == "*", row_position: row_index - 2, column_position: column_index)
