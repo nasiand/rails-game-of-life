@@ -19,6 +19,7 @@ class Game < ApplicationRecord
         neighbors = actual_grid.count_neighbors(cell)
         new_cell = cell.dup # full copy (copying the value, not the reference)
         new_cell.grid = next_grid
+        new_cell.save
         # change the state of the cell based on the number of neighbors
         # (cell.alive? && sum == 2 || sum == 3 = live
         # cell.dead? && sum == 3 = live
@@ -44,12 +45,6 @@ class Game < ApplicationRecord
 
   def make_grid_from_file
     # read from the input file. loop through every row of the file. E.g. below
-    # Generation 3:
-    # 4 8
-    # ........
-    # ....*...
-    # ...**...
-    # ........
 
     txt_file = self.file.download.delete(' ')  # returns the content of the file as a string
     grid = self.grids.new

@@ -19,6 +19,7 @@
         <div class="w-100 p-3 fs-1">
           <% @game.grids.order(:generation).each do |grid| %>
             <div class="p-3 mt-3">
+              <h3>Generation: <%= grid.generation %></h3>
               <% grid.cells.order(:row_position, :column_position).to_a.in_groups(grid.rows, false).each do |group_of_cells| %>
                 <div>
                   <% group_of_cells.each do |cell| %>
