@@ -1,0 +1,17 @@
+<div class="container w-75 p-5">
+      <h1 class="text-center mb-5">Rails Game of Life</h1>
+      <p class="text-center">Upload a .txt file containg the cells grid to start the game</p>
+  <br>
+
+  <div class="row">
+    <div class="col-12 d-flex justify-content-center">
+      <%= simple_form_for @game do |f| %>
+        <%= f.error_notification %>
+
+        <%= f.input :file, input_html: { accept: ".txt", class: "form-control" } %>
+        <br>
+        <%= f.button :submit, class: "btn-primary"  %>
+      <% end %>
+    </div>
+  </div>
+</div>

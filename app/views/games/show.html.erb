@@ -1,0 +1,37 @@
+<%# <div class="container">
+  <div class="row d-flex justify-content-center">
+      <div class="col-12 d-flex justify-content-center">
+        <div class="w-100 p-3 fs-1"> %>
+          <%# <% @cells.to_a.in_groups(@grid.rows, false).each do |group_of_cells| %>
+            <%# <div class="cell-container"> %>
+              <%# <% group_of_cells.each do |cell| %>
+                <%# <div class="cell" ><%= cell.alive? ? "*" : "." ></div> %>
+              <%# <% end >
+            <%# </div> %>
+          <%# <% end >
+        <%# </div>
+      </div>    
+  </div>
+</div> %>
+<div class="container">
+  <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center">
+        <div class="w-100 p-3 fs-1">
+          <% @game.grids.order(:generation).each do |grid| %>
+            <div class="p-3 mt-3">
+              <% grid.cells.order(:row_position, :column_position).to_a.in_groups(grid.rows, false).each do |group_of_cells| %>
+                <div>
+                  <% group_of_cells.each do |cell| %>
+                    <div class="cell"><%= cell.alive? ? "*" : "." %></div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div> 
+  </div>
+  <div class="d-flex justify-content-center">
+    <%= button_to "Start", start_game_path(@game), method: :put %>
+  </div>
+</div>
