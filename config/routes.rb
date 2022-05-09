@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: "games#new"
+  root to: "pages#home"
 
   resources :games, only: [:new, :create, :show] do
     member do
