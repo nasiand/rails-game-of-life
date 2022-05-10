@@ -5,6 +5,8 @@ class Game < ApplicationRecord
   validate :file_content_type
 
   def start
+    while true do      
+      changed = false
       # create a new 2D Array because I need to not change the value of the actual cells
       max_generation = self.grids.maximum(:generation)
       actual_grid = self.grids.find_by(generation: max_generation)
@@ -18,23 +20,25 @@ class Game < ApplicationRecord
         new_cell.grid = next_grid
         new_cell.save
         # change the state of the cell based on the number of neighbors
-        # (cell.alive? && sum == 2 || sum == 3 = live
-        # cell.dead? && sum == 3 = live
-        # cell.alive? && sum < 2 = die
-        # cell.alive? && sum > 3 = die
         if cell.dead? && neighbors == 3
           new_cell.alive = true
           new_cell.save
+          changed = true
         elsif cell.alive? && (neighbors < 2 || neighbors > 3)
           new_cell.alive = false
           new_cell.save
+          changed = true
         end
       end
+      if changed == false
+        next_grid.destroy
+        break
+      end
+    end
   end
 
   def make_grid_from_file
-    # read from the input file. loop through every row of the file. E.g. below
-
+    # read from the input file. loop through every row of the file
     txt_file = self.file.download.delete(' ')  # returns the content of the file as a string
     grid = self.grids.new
     txt_file.each_line.with_index do |line, row_index| 
@@ -56,5 +60,4 @@ class Game < ApplicationRecord
   def file_content_type
     errors.add(:file, "file type must be .txt") if self.file.blob.content_type != "text/plain"
   end
-
 end
