@@ -1,4 +1,5 @@
 class Game < ApplicationRecord
+  belongs_to :user
   has_many :grids, dependent: :destroy
   has_one_attached :file
 
