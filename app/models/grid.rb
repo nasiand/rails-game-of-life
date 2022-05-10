@@ -7,8 +7,6 @@ class Grid < ApplicationRecord
     (-1..1).each do |row_offset|
       (-1..1).each do |column_offset|
         # row_offset and column_offset are offset relative from where I'm looking (in the 8 neighbors)
-        # i = (cell.row_position + row_offset + self.rows) % self.rows
-        # j = (cell.column_position + column_offset + self.cols) % self.cols
         i = (row_offset + cell.row_position).abs
         j = (column_offset + cell.column_position).abs
         i = 0 unless i < self.rows

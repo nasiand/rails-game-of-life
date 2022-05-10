@@ -4,12 +4,4 @@ class Cell < ApplicationRecord
   def dead?
     !alive
   end
-
-  # def die!
-  #   self.update!(alive: false)
-  # end
-
-  # def live!
-  #   self.update!(alive: true)
-  # end
 end
