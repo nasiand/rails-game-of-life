@@ -5,6 +5,7 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.create(game_params)
+    @game.user = current_user
 
     if @game.save
       @game.make_grid_from_file
