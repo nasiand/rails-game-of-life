@@ -5,6 +5,7 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.create(game_params)
+
     if @game.save
       @game.make_grid_from_file
       redirect_to @game
@@ -20,7 +21,15 @@ class GamesController < ApplicationController
   def start
     @game = Game.find(params[:id])
     @game.start
+
     redirect_to @game
+  end
+
+  def destroy
+    @game = Game.find(params[:id])
+    @game.destroy
+
+    redirect_to new_game_path
   end
 
   private

@@ -21,7 +21,7 @@
     <% if @game.grids.last.generation == 0 %>
       <%= button_to "Start", start_game_path(@game), method: :put, class: "button-generation" %>
     <% else %>
-      <%= button_to "Continue", start_game_path(@game), method: :put, class: "button-generation" %>
+      <%= button_to "Clear", @game, method: :delete, class: "button-generation" %>
     <% end %>
   </div>
 </div>
